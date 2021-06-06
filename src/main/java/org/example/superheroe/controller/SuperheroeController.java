@@ -1,12 +1,19 @@
 package org.example.superheroe.controller;
 
+import org.example.superheroe.annotation.Performance;
+import org.example.superheroe.model.Superheroe;
 import org.example.superheroe.service.SuperheroeService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.net.URI;
 
 /**
  * Superhero controller
@@ -16,15 +23,15 @@ public class SuperheroeController   {
 
 @Autowired
 private SuperheroeService superheroeService;
-    @Autowired
+    private static final Logger LOGGER = LoggerFactory.getLogger(SuperheroeController.class);
 
     /**
      * returns the list of all superheroes
      */
     @GetMapping("/superheroes")
+    @Performance
     public ResponseEntity<?> getSuperheroes(){
             return new ResponseEntity<>(superheroeService.getSuperheroes(), HttpStatus.OK);
-
     }
 
     /**
@@ -33,10 +40,48 @@ private SuperheroeService superheroeService;
      * @return
      */
     @GetMapping(value="/superheroes/{name}")
+    @Performance
     public ResponseEntity<?> getSuperheroesByName(@PathVariable String name){
        // return new ResponseEntity<>(indexationEvent.findSuperheroes(name), HttpStatus.OK);
         return new ResponseEntity<>(superheroeService.getSuperheroesAsLike(name), HttpStatus.OK);
 
     }
+    @GetMapping(value="/superheroe/{id}")
+    @Performance
+    public ResponseEntity<?> getSuperHeroeById(@PathVariable Long id){
+        return new ResponseEntity<>(superheroeService.getSuperheroeById(id),HttpStatus.OK);
+    }
 
+
+    /**
+     * Create a superhero
+     * @param hero
+     * @return
+     */
+    @PostMapping(value="/superheroe/create")
+    @Performance
+    public ResponseEntity<?> createSuperheroe(@RequestBody Superheroe hero){
+        superheroeService.createSuperhero(hero);
+        return new  ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    /**
+     * Update a superhero
+     * @param hero
+     * @param id
+     * @return
+     */
+    @PutMapping (value="/superheroe/update/{id}")
+    @Performance
+    public ResponseEntity<?> updateSuperheroe(@RequestBody Superheroe hero,@PathVariable Long id){
+        superheroeService.updateSuperheroe(hero,id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping(value="/superheroe/delete/{id}")
+    @Performance
+    public ResponseEntity<?> deleteSuperheroe(@PathVariable Long id){
+        superheroeService.deleteSuperheroe(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
