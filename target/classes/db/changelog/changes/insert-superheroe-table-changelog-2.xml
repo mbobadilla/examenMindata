@@ -8,37 +8,30 @@
 
     <changeSet author="admin" id="2">
         <insert tableName="superheroe">
-            <!--<column name="id" valueNumeric="1"/>-->
             <column name="name" value="Superman"/>
             <column name="copyright" value="Marvel"/>
         </insert>
         <insert tableName="superheroe">
-            <!--<column name="id" valueNumeric="1"/>-->
             <column name="name" value="Spiderman"/>
             <column name="copyright" value="Marvel"/>
         </insert>
         <insert tableName="superheroe">
-            <!--<column name="id" valueNumeric="1"/>-->
             <column name="name" value="Batman"/>
             <column name="copyright" value="Marvel"/>
         </insert>
         <insert tableName="superheroe">
-            <!--<column name="id" valueNumeric="1"/>-->
             <column name="name" value="Robin"/>
             <column name="copyright" value="Marvel"/>
         </insert>
         <insert tableName="superheroe">
-            <!--<column name="id" valueNumeric="1"/>-->
             <column name="name" value="Capitan America"/>
             <column name="copyright" value="Marvel"/>
         </insert>
         <insert tableName="superheroe">
-            <!--<column name="id" valueNumeric="1"/>-->
             <column name="name" value="Ironman"/>
             <column name="copyright" value="Marvel"/>
         </insert>
         <insert tableName="superheroe">
-            <!--<column name="id" valueNumeric="1"/>-->
             <column name="name" value="Ironwoman"/>
             <column name="copyright" value="Marvel"/>
         </insert>

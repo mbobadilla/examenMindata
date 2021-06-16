@@ -25,4 +25,15 @@ public class RestExceptionHandler {
 
         return new ResponseEntity<>(errorDetail, null, HttpStatus.NOT_FOUND);
     }
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<?> handleException(UsernameNotFoundException usfe, HttpServletRequest request) {
+        ErrorDetail errorDetail = new ErrorDetail();
+        errorDetail.setTimeStamp(new Date().getTime());
+        errorDetail.setStatus(HttpStatus.NOT_FOUND.value());
+        errorDetail.setTitle("Resource Not Found");
+        errorDetail.setDetail(usfe.getMessage());
+        errorDetail.setDeveloperMessage(usfe.getClass().getName());
+        return new ResponseEntity<>(errorDetail, null, HttpStatus.NOT_FOUND);
+    }
+
 }

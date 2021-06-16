@@ -10,6 +10,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -28,7 +29,7 @@ private SuperheroeService superheroeService;
     /**
      * returns the list of all superheroes
      */
-    @GetMapping("/superheroes")
+    @GetMapping("/v1/superheroes")
     @Performance
     public ResponseEntity<?> getSuperheroes(){
             return new ResponseEntity<>(superheroeService.getSuperheroes(), HttpStatus.OK);
@@ -39,14 +40,14 @@ private SuperheroeService superheroeService;
      * @param name
      * @return
      */
-    @GetMapping(value="/superheroes/{name}")
+    @GetMapping(value="/v1/superheroes/{name}")
     @Performance
     public ResponseEntity<?> getSuperheroesByName(@PathVariable String name){
        // return new ResponseEntity<>(indexationEvent.findSuperheroes(name), HttpStatus.OK);
         return new ResponseEntity<>(superheroeService.getSuperheroesAsLike(name), HttpStatus.OK);
 
     }
-    @GetMapping(value="/superheroe/{id}")
+    @GetMapping(value="/v1/superheroe/{id}")
     @Performance
     public ResponseEntity<?> getSuperHeroeById(@PathVariable Long id){
         return new ResponseEntity<>(superheroeService.getSuperheroeById(id),HttpStatus.OK);
@@ -58,7 +59,7 @@ private SuperheroeService superheroeService;
      * @param hero
      * @return
      */
-    @PostMapping(value="/superheroe/create")
+    @PostMapping(value="/v1/superheroe/create")
     @Performance
     public ResponseEntity<?> createSuperheroe(@RequestBody Superheroe hero){
         superheroeService.createSuperhero(hero);
@@ -71,15 +72,17 @@ private SuperheroeService superheroeService;
      * @param id
      * @return
      */
-    @PutMapping (value="/superheroe/update/{id}")
+    @PutMapping (value="/v1/superheroe/update/{id}")
     @Performance
     public ResponseEntity<?> updateSuperheroe(@RequestBody Superheroe hero,@PathVariable Long id){
         superheroeService.updateSuperheroe(hero,id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @DeleteMapping(value="/superheroe/delete/{id}")
+
+    @DeleteMapping(value="/v1/superheroe/delete/{id}")
     @Performance
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<?> deleteSuperheroe(@PathVariable Long id){
         superheroeService.deleteSuperheroe(id);
         return new ResponseEntity<>(HttpStatus.OK);

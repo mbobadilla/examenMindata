@@ -54,21 +54,22 @@ public class SuperheroeControllerIntegrationTest {
         when(superheroeService.getSuperheroes()).thenReturn(listSuperheroe);
         when(superheroeService.getSuperheroesAsLike("man")).thenReturn(listSuperheroe);
         when(superheroeService.createSuperhero(superman)).thenReturn(superman);
+        restTemplate.withBasicAuth("maradona@gmail.com","mexico86");
 
 
     }
 
     @Test
     public void getAllSuperheroeTest(){
-        ResponseEntity<List> response =  restTemplate.getForEntity("/superheroes", List.class);
+        ResponseEntity<List> response =  restTemplate.withBasicAuth("maradona@gmail.com","mexico86").getForEntity("/v1/superheroes", List.class);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(MediaType.APPLICATION_JSON, response.getHeaders().getContentType());
-        verify(superheroeService, times(2)).getSuperheroes();
+        verify(superheroeService, times(1)).getSuperheroes();
     }
 
     @Test
     public void findSuperheroeByNameTest(){
-        ResponseEntity<List> response =  restTemplate.getForEntity("/superheroes/man", List.class);
+        ResponseEntity<List> response =  restTemplate.withBasicAuth("maradona@gmail.com","mexico86").getForEntity("/v1/superheroes/man", List.class);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(MediaType.APPLICATION_JSON, response.getHeaders().getContentType());
         verify(superheroeService, times(1)).getSuperheroesAsLike("man");
@@ -85,7 +86,7 @@ public class SuperheroeControllerIntegrationTest {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> entity = new HttpEntity<>(om.writeValueAsString(superman), headers);
-        ResponseEntity<String> response = restTemplate.exchange("/superheroe/create", HttpMethod.POST, entity, String.class);
+        ResponseEntity<String> response = restTemplate.withBasicAuth("maradona@gmail.com","mexico86").exchange("/v1/superheroe/create", HttpMethod.POST, entity, String.class);
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
     }
 
@@ -101,7 +102,7 @@ public class SuperheroeControllerIntegrationTest {
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> entity = new HttpEntity<>(om.writeValueAsString(superman), headers);
 
-        ResponseEntity<String> response = restTemplate.exchange("/superheroe/update/1", HttpMethod.PUT, entity, String.class);
+        ResponseEntity<String> response = restTemplate.withBasicAuth("maradona@gmail.com","mexico86").exchange("/v1/superheroe/update/1", HttpMethod.PUT, entity, String.class);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
 
@@ -118,7 +119,7 @@ public class SuperheroeControllerIntegrationTest {
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> entity = new HttpEntity<>(om.writeValueAsString(superman), headers);
 
-        ResponseEntity<String> response = restTemplate.exchange("/superheroe/delete/1", HttpMethod.DELETE, entity, String.class);
+        ResponseEntity<String> response = restTemplate.withBasicAuth("maradona@gmail.com","mexico86").exchange("/v1/superheroe/delete/1", HttpMethod.DELETE, entity, String.class);
         assertEquals(HttpStatus.OK, response.getStatusCode());
 
     }
